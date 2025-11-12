@@ -2,6 +2,12 @@
 
 경제 뉴스를 기반으로 한 인터랙티브 퀴즈 게임 플랫폼입니다.
 
+[![Deploy Status](https://img.shields.io/badge/Deploy-Live-brightgreen)](https://d37wz4zxwakwl0.cloudfront.net)
+[![GitHub](https://img.shields.io/badge/GitHub-sedaily/g2--clone-blue)](https://github.com/sedaily/g2-clone)
+[![AWS](https://img.shields.io/badge/AWS-Lambda%20%2B%20CloudFront-orange)](https://aws.amazon.com/)
+
+**🌐 Live Demo:** https://d37wz4zxwakwl0.cloudfront.net
+
 ## 🎮 게임 종류
 
 - **BlackSwan (g1)**: 경제 이벤트 예측 게임
@@ -129,8 +135,8 @@ pnpm build:export     # 정적 파일 생성 (out 폴더)
 
 ### AWS 인프라
 - **S3 Bucket**: `g2-frontend-ver2` (정적 호스팅)
-- **CloudFront**: `E1C1UNHJ75JZMZ` (CDN 배포)
-- **커스텀 도메인**: `g2-clone.ai` (설정 예정)
+- **CloudFront**: `E8HKFQFSQLNHZ` (CDN 배포)
+- **도메인**: `d37wz4zxwakwl0.cloudfront.net`
 - **Lambda Function**: `sedaily-chatbot-dev-handler` (Python 3.11)
 - **Bedrock**: Claude 3 Sonnet (ap-northeast-2)
 - **BigKinds API**: 경제 뉴스 RAG 소스
@@ -171,9 +177,47 @@ NEXT_PUBLIC_CHATBOT_API_URL=lambda-api-url
 BIGKINDS_API_KEY=bigkinds-key
 ```
 
+## 🔄 GitHub Actions 설정
+
+자동 배포를 위해 Repository Settings → Secrets에 다음 값들을 추가하세요:
+
+```env
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=ap-northeast-2
+S3_BUCKET_NAME=g2-frontend-ver2
+CLOUDFRONT_DISTRIBUTION_ID=E8HKFQFSQLNHZ
+```
+
+## 📊 프로젝트 현황
+
+- ✅ **Frontend**: 배포 완료 (Next.js 15.2.4)
+- ✅ **Backend**: Lambda 함수 운영 중 (`sedaily-chatbot-dev-handler`)
+- ✅ **RAG System**: BigKinds API + Claude 3 Sonnet 통합
+- ✅ **CI/CD**: GitHub Actions 자동 배포
+- ✅ **Monitoring**: CloudFront + Lambda 로그
+
+## 🚀 최근 업데이트 (2025-11-10)
+
+### RAG 시스템 개선
+- **Intelligent Fallback**: BigKinds API 실패 시 순수 Claude 응답 제공
+- **응답 품질 향상**: 폴백 응답 → 전문적 경제 분석
+- **Lambda 최적화**: Python 3.11, 1024MB 메모리, 60초 타임아웃
+
+### GitHub Repository
+- **Repository**: https://github.com/sedaily/g2-clone
+- **자동 배포**: main 브랜치 push 시 CloudFront 배포
+- **문서화**: 완전한 프로젝트 문서 및 배포 가이드
+
 ---
 
-**🔗 링크**
-- [배포 사이트](https://d37wz4zxwakwl0.cloudfront.net)
-- [커스텀 도메인](https://g2-clone.ai) (설정 예정)
-- [GitHub Actions](/.github/workflows/deploy.yml)
+**🔗 주요 링크**
+- 🌐 [Live Demo](https://d37wz4zxwakwl0.cloudfront.net)
+- 📱 [GitHub Repository](https://github.com/sedaily/g2-clone)
+- 🔧 [GitHub Actions](/.github/workflows/deploy.yml)
+- 📋 [배포 상태](./DEPLOYMENT_STATUS.md)
+
+**📞 Contact**
+- Repository: sedaily/g2-clone
+- Platform: AWS Lambda + CloudFront
+- AI: Claude 3 Sonnet (AWS Bedrock)
