@@ -4,7 +4,7 @@
 
 - **도메인**: `g2-clone.ai`
 - **SSL 인증서 ID**: `9c87fd8a-3506-4a55-86dc-03bfeb6b22d8`
-- **CloudFront Distribution**: `E8HKFQFSQLNHZ`
+- **CloudFront Distribution**: `E1C1UNHJ75JZMZ`
 - **현재 도메인**: `d37wz4zxwakwl0.cloudfront.net`
 
 ## 🔧 설정 단계
@@ -32,7 +32,7 @@ aws route53 change-resource-record-sets --hosted-zone-id YOUR_ZONE_ID --change-b
 ```bash
 # 커스텀 도메인 추가
 aws cloudfront update-distribution \
-  --id E8HKFQFSQLNHZ \
+  --id E1C1UNHJ75JZMZ \
   --distribution-config '{
     "Aliases": {
       "Quantity": 1,
@@ -65,7 +65,7 @@ aws cloudfront update-distribution \
 
 3. **CloudFront 상태 확인**:
    ```bash
-   aws cloudfront get-distribution --id E8HKFQFSQLNHZ
+   aws cloudfront get-distribution --id E1C1UNHJ75JZMZ
    ```
 
 ## 📝 참고사항
