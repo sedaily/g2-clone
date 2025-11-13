@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 interface GameCard {
@@ -18,18 +17,17 @@ interface CardPair {
   id: number
   term: string
   definition: string
-  source?: string
 }
 
 const economicTerms: CardPair[] = [
-  { id: 1, term: "GDP", definition: "국내총생산", source: "한국은행 경제용어" },
-  { id: 2, term: "CPI", definition: "소비자물가지수", source: "통계청" },
-  { id: 3, term: "기준금리", definition: "중앙은행이 정하는 정책금리", source: "한국은행" },
-  { id: 4, term: "환율", definition: "외국 통화와의 교환 비율", source: "외환은행" },
-  { id: 5, term: "인플레이션", definition: "물가가 지속적으로 상승하는 현상", source: "경제학 용어" },
-  { id: 6, term: "디플레이션", definition: "물가가 지속적으로 하락하는 현상", source: "경제학 용어" },
-  { id: 7, term: "경상수지", definition: "수출입 및 소득 수지의 합계", source: "한국은행" },
-  { id: 8, term: "실업률", definition: "경제활동인구 중 실업자 비율", source: "통계청" }
+  { id: 1, term: "GDP", definition: "국내총생산" },
+  { id: 2, term: "CPI", definition: "소비자물가지수" },
+  { id: 3, term: "기준금리", definition: "중앙은행이 정하는 정책금리" },
+  { id: 4, term: "환율", definition: "외국 통화와의 교환 비율" },
+  { id: 5, term: "인플레이션", definition: "물가가 지속적으로 상승하는 현상" },
+  { id: 6, term: "디플레이션", definition: "물가가 지속적으로 하락하는 현상" },
+  { id: 7, term: "경상수지", definition: "수출입 및 소득 수지의 합계" },
+  { id: 8, term: "실업률", definition: "경제활동인구 중 실업자 비율" }
 ]
 
 type Difficulty = 'easy' | 'normal' | 'hard'
@@ -50,8 +48,6 @@ export default function CardMatchingGame() {
   const [startTime, setStartTime] = useState<number>(0)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isChecking, setIsChecking] = useState(false)
-  const [hintsRemaining, setHintsRemaining] = useState(3)
-  const [showHint, setShowHint] = useState<number | null>(null)
 
   // 타이머 효과
   useEffect(() => {
@@ -98,8 +94,6 @@ export default function CardMatchingGame() {
     setGameStarted(false)
     setGameCompleted(false)
     setElapsedTime(0)
-    setHintsRemaining(3)
-    setShowHint(null)
   }, [difficulty])
 
   // 게임 시작
@@ -154,7 +148,6 @@ export default function CardMatchingGame() {
       const totalPairs = difficultySettings[difficulty].pairs
       if (matchedPairs + 1 === totalPairs) {
         setGameCompleted(true)
-        saveRecord()
       }
     } else {
       // 오답 처리
@@ -168,49 +161,13 @@ export default function CardMatchingGame() {
     setIsChecking(false)
   }
 
-  // 힌트 사용
-  const useHint = () => {
-    if (hintsRemaining <= 0 || gameCompleted) return
-
-    const unmatchedCards = cards.filter(card => !card.isMatched)
-    if (unmatchedCards.length === 0) return
-
-    // 첫 번째 매칭되지 않은 쌍 찾기
-    const firstUnmatchedPair = unmatchedCards[0].pairId
-    setShowHint(firstUnmatchedPair)
-    setHintsRemaining(prev => prev - 1)
-
-    setTimeout(() => {
-      setShowHint(null)
-    }, 2000)
-  }
-
-  // 기록 저장
-  const saveRecord = () => {
-    const finalTime = elapsedTime
-    const key = `cardMatch_${difficulty}_bestTime`
-    const currentBest = localStorage.getItem(key)
-    
-    if (!currentBest || finalTime < parseInt(currentBest)) {
-      localStorage.setItem(key, finalTime.toString())
-    }
-  }
-
-  // 최고 기록 가져오기
-  const getBestTime = () => {
-    const key = `cardMatch_${difficulty}_bestTime`
-    const bestTime = localStorage.getItem(key)
-    return bestTime ? parseInt(bestTime) : null
-  }
-
   // 시간 포맷팅
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000)
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
-    const centiseconds = Math.floor((ms % 1000) / 10)
     
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
   // 초기화
@@ -218,7 +175,6 @@ export default function CardMatchingGame() {
     initializeGame()
   }, [initializeGame])
 
-  const bestTime = getBestTime()
   const totalPairs = difficultySettings[difficulty].pairs
 
   return (
@@ -252,21 +208,8 @@ export default function CardMatchingGame() {
           <Badge variant="secondary">
             진행: {matchedPairs}/{totalPairs}
           </Badge>
-          {bestTime && (
-            <Badge variant="outline">
-              최고기록: {formatTime(bestTime)}
-            </Badge>
-          )}
         </div>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={useHint}
-            disabled={hintsRemaining <= 0 || gameCompleted}
-          >
-            힌트 ({hintsRemaining})
-          </Button>
           <Button
             variant="outline"
             size="sm"
@@ -280,18 +223,16 @@ export default function CardMatchingGame() {
       {/* 게임 보드 */}
       <div className={`grid ${difficultySettings[difficulty].gridCols} gap-3 max-w-3xl mx-auto`}>
         {cards.map((card) => (
-          <Card
+          <div
             key={card.id}
             className={`
               h-24 flex items-center justify-center text-center cursor-pointer
-              transition-all duration-300 hover:shadow-md
+              transition-all duration-300 hover:shadow-md rounded-lg border-2
               ${card.isMatched 
                 ? 'bg-green-100 border-green-300 opacity-50 cursor-not-allowed' 
                 : card.isSelected 
                   ? 'bg-blue-100 border-blue-300 ring-2 ring-blue-200'
-                  : showHint === card.pairId
-                    ? 'bg-yellow-100 border-yellow-300 ring-2 ring-yellow-200'
-                    : 'bg-white border-gray-200 hover:bg-gray-50'
+                  : 'bg-white border-gray-200 hover:bg-gray-50'
               }
               ${card.type === 'term' ? 'font-semibold text-blue-900' : 'text-gray-700'}
             `}
@@ -305,7 +246,7 @@ export default function CardMatchingGame() {
                 <div className="text-xs text-blue-600 mt-1">용어</div>
               )}
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
@@ -316,9 +257,6 @@ export default function CardMatchingGame() {
           <p className="text-green-700 mb-4">
             완료 시간: <span className="font-bold">{formatTime(elapsedTime)}</span>
           </p>
-          {bestTime === elapsedTime && (
-            <p className="text-green-600 font-semibold">🏆 새로운 최고 기록입니다!</p>
-          )}
           <Button onClick={initializeGame} className="mt-4">
             다시 플레이
           </Button>
@@ -329,7 +267,6 @@ export default function CardMatchingGame() {
       <div className="text-center text-sm text-gray-500 space-y-1">
         <p>💡 용어 카드(파란색)와 정의 카드를 클릭하여 매칭하세요</p>
         <p>⏱️ 최대한 빠른 시간 내에 모든 쌍을 찾는 것이 목표입니다</p>
-        <p>💡 힌트를 사용하면 정답 쌍이 2초간 강조됩니다</p>
       </div>
     </div>
   )
