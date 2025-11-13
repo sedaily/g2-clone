@@ -241,8 +241,8 @@ export function UniversalQuizPlayer({
 
   if (questionStates.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto">
-        <div className={`${themeStyles.paperBg} border ${themeStyles.hairline} p-8 text-center rounded-2xl shadow-sm`}>
+      <div className="max-w-3xl mx-auto px-3 md:px-4">
+        <div className={`${themeStyles.paperBg} border ${themeStyles.hairline} p-6 md:p-8 text-center rounded-2xl shadow-sm`}>
           <p className={`${themeStyles.inkColor}`}>퀴즈를 불러오는 중...</p>
         </div>
       </div>
@@ -251,12 +251,12 @@ export function UniversalQuizPlayer({
 
   return (
     <div
-      className="max-w-3xl mx-auto"
+      className="max-w-3xl mx-auto px-3 md:px-4"
       style={{
-        padding: "2rem 0",
+        padding: "1rem 0.75rem",
       }}
     >
-      <div className="space-y-12">
+      <div className="space-y-8 md:space-y-12">
         {questions.map((question, questionIndex) => {
           const state = questionStates[questionIndex]
           if (!state) return null

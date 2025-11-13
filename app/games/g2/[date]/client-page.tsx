@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { UniversalQuizPlayer } from "@/components/games/UniversalQuizPlayer"
+import { QuizCarousel } from "@/components/games/QuizCarousel"
 import { getQuestionsForDate, type Question } from "@/lib/games-data"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
@@ -112,7 +112,7 @@ export default function DateQuizClient({ date }: Props) {
         />
         <div className="absolute inset-0 bg-linear-to-r from-[#EFECE7]/40 via-[#E7DFD3]/35 to-[#E2DAD2]/40" />
 
-        <div className="container mx-auto px-4 py-8 relative z-10">
+        <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 relative z-10">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error || "퀴즈를 찾을 수 없습니다."}</AlertDescription>
@@ -133,7 +133,7 @@ export default function DateQuizClient({ date }: Props) {
         />
         <div className="absolute inset-0 bg-linear-to-r from-[#EFECE7]/40 via-[#E7DFD3]/35 to-[#E2DAD2]/40" />
 
-        <div className="container mx-auto px-4 py-8 relative z-10">
+        <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 relative z-10">
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>이 날짜에 대한 퀴즈가 없습니다.</AlertDescription>
@@ -153,7 +153,7 @@ export default function DateQuizClient({ date }: Props) {
       />
       <div className="absolute inset-0 bg-linear-to-r from-[#EFECE7]/40 via-[#E7DFD3]/35 to-[#E2DAD2]/40" />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 relative z-10">
         {/* Subtle grid/lattice pattern overlay */}
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -163,11 +163,15 @@ export default function DateQuizClient({ date }: Props) {
           }}
         />
 
-        <UniversalQuizPlayer
+        <QuizCarousel
           questions={questions}
           date={normalizedDate}
           gameType="PrisonersDilemma"
           themeColor="#8B5E3C"
+          showArrows={true}
+          showDots={true}
+          useFade={false}
+          loop={false}
         />
       </div>
     </div>
