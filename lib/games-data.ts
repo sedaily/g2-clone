@@ -22,14 +22,14 @@ export const GAMES: GameMeta[] = [
     title: "블랙 스완",
     subtitle: "",
     description: "",
-    color: "#2A50FF",
+    color: "#5FA8FF",
     bgColor: "from-blue-600 to-blue-700",
     icon: "🦢",
     status: "active",
-    image: "/images/g1-woodcut.webp",
-    solidBgColor: "#6CAEFF",
+    image: "/images/g1-woodcut-removed.png",
+    solidBgColor: "#F5F8FF", // 더 연한 파스텔 블루
     isNew: true,
-    playUrl: "/games/g1/play", // Custom play URL for Black Swan
+    playUrl: "/games/g1/play",
   },
   {
     id: "g2",
@@ -37,14 +37,14 @@ export const GAMES: GameMeta[] = [
     title: "죄수의 딜레마",
     subtitle: "",
     description: "",
-    color: "#E7D9C3",
+    color: "#C2A878",
     bgColor: "from-stone-300 to-stone-400",
     icon: "⛓️",
     status: "active",
-    image: "/images/g2-woodcut.webp",
-    solidBgColor: "#E7D9C3",
+    image: "/images/g2-woodcut-removed.png",
+    solidBgColor: "#FAF7F2", // 더 연한 파스텔 크림
     isNew: true,
-    playUrl: "/games/g2/play", // Custom play URL for Prisoners Dilemma
+    playUrl: "/games/g2/play",
   },
   {
     id: "g3",
@@ -52,14 +52,14 @@ export const GAMES: GameMeta[] = [
     title: "시그널 디코딩",
     subtitle: "",
     description: "",
-    color: "#E56F5E",
+    color: "#F0735A",
     bgColor: "from-orange-400 to-orange-500",
     icon: "🔍",
     status: "active",
-    image: "/images/g3-woodcut.webp",
-    solidBgColor: "#E56F5E",
+    image: "/images/g3-woodcut-removed.png",
+    solidBgColor: "#FFF5F3", // 더 연한 파스텔 피치
     isNew: true,
-    playUrl: "/games/g3/play", // Custom play URL for Signal Decoding
+    playUrl: "/games/g3/play",
   },
 ]
 

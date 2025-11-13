@@ -1,46 +1,27 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowUp } from "lucide-react"
-import { todayKST, getMonthNameKR } from "@/lib/date-utils"
-import { getArchiveStructure, getQuestionsForDate, GAME_TYPE_MAP, type ArchiveStructure } from "@/lib/games-data"
+import { ArrowUp, ChevronLeft, ChevronRight } from "lucide-react"
+import { todayKST } from "@/lib/date-utils"
+import { getArchiveStructure, GAME_TYPE_MAP, type ArchiveStructure } from "@/lib/games-data"
 import { ArchiveCard } from "@/components/games/ArchiveCard"
 
 export default function G2ArchivePage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   
   // API에서 데이터 로드
   const [archiveData, setArchiveData] = useState<ArchiveStructure>({ years: [] })
   const [loading, setLoading] = useState(true)
-  const [dateTags, setDateTags] = useState<Record<string, string[]>>({})
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await getArchiveStructure(GAME_TYPE_MAP.g2)
         setArchiveData(data)
-        
-        // 모든 날짜의 태그를 한 번에 로드
-        const tagsMap: Record<string, string[]> = {}
-        for (const yearData of data.years) {
-          for (const monthData of yearData.months) {
-            for (const dateStr of monthData.dates) {
-              const questions = await getQuestionsForDate("PrisonersDilemma", dateStr)
-              const uniqueTags = new Set<string>()
-              questions.forEach(q => {
-                if (q.tags) uniqueTags.add(q.tags)
-              })
-              tagsMap[dateStr] = Array.from(uniqueTags)
-            }
-          }
-        }
-        setDateTags(tagsMap)
       } catch (error) {
         console.error("[v0] Failed to load archive:", error)
       } finally {
@@ -276,6 +257,7 @@ export default function G2ArchivePage() {
                     questionCount={questionCount}
                     isToday={isToday}
                     href={`/games/g2/${shortDate}`}
+                    tags={dateTags[date] || []}
                   />
                 )
               })

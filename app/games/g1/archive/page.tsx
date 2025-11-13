@@ -287,7 +287,6 @@ export default function G1ArchivePage() {
                     questionCount={questionCount}
                     isToday={isToday}
                     href={`/games/g1/${shortDate}`}
-                    tags={dateTags[date] || []}
                   />
                 )
               })
