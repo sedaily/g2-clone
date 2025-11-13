@@ -57,14 +57,16 @@ export function QuizCarousel({
 
   const accent = ACCENT[gameType]
 
-  // Embla 초기화
+  // Embla 초기화 - 옵션을 상수로 분리
+  const emblaOptions = {
+    loop,
+    align: "center" as const,
+    containScroll: false as const,
+    slidesToScroll: 1,
+  }
+  
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop,
-      align: "center",
-      containScroll: false,
-      slidesToScroll: 1,
-    },
+    emblaOptions,
     useFade ? [Fade()] : []
   )
 
